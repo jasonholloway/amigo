@@ -1,4 +1,4 @@
-;;; sideterm.el --- blah blah
+;;; side-toggle.el --- blah blah
 ;;; Package-Requires: ((dash "2.17.0"))
 
 ;;; Commentary:
@@ -9,76 +9,76 @@
 ;;; -*- lexical-binding t; -*-
 
 
-(-first 'sideterm--is-buffer (buffer-list))
+(-first 'side-toggle--is-buffer (buffer-list))
 
 
-(sideterm--find-window)
+(side-toggle--find-window)
 
 (window-parameters
- (sideterm--find-window))
+ (side-toggle--find-window))
 
 (window-total-width
- (sideterm--find-window))
+ (side-toggle--find-window))
 
 
-(sideterm--current-mode)
-(sideterm-toggle)
+(side-toggle--current-mode)
+(side-toggle-toggle)
 
-(sideterm--find-buffer)
-(sideterm--open-buffer)
-
-
+(side-toggle--find-buffer)
+(side-toggle--open-buffer)
 
 
-(defconst sideterm--buffer-name-prefix " *sideterm-")
+
+
+(defconst side-toggle--buffer-name-prefix " *side-toggle-")
 
 ;;;###autoload
-(defun sideterm-toggle ()
+(defun side-toggle-toggle ()
   "Blah."
   (interactive)
-  (pcase (sideterm--current-mode)
-    ('visible (sideterm--close-window (sideterm--find-window)))
-    ('exists  (sideterm--open-window (sideterm--find-buffer)))
-    ('none    (sideterm--open-window (sideterm--open-buffer)))))
+  (pcase (side-toggle--current-mode)
+    ('visible (side-toggle--close-window (side-toggle--find-window)))
+    ('exists  (side-toggle--open-window (side-toggle--find-buffer)))
+    ('none    (side-toggle--open-window (side-toggle--open-buffer)))))
 
-(defun sideterm--current-mode ()
+(defun side-toggle--current-mode ()
   "Blah."
   (cond
-    ((sideterm--find-window) 'visible)
-    ((sideterm--find-buffer) 'exists)
+    ((side-toggle--find-window) 'visible)
+    ((side-toggle--find-buffer) 'exists)
     (t 'none)))
 
-(defun sideterm--open-window (buffer)
+(defun side-toggle--open-window (buffer)
   "Blah BUFFER."
   (display-buffer-in-side-window
     buffer
     '((side . right)
-      (window-parameters . ((sideterm . t))))))
+      (window-parameters . ((side-toggle . t))))))
 
-(defun sideterm--close-window (window)
+(defun side-toggle--close-window (window)
   "Blah WINDOW."
   (delete-window window))
 
-(defun sideterm--open-buffer ()
+(defun side-toggle--open-buffer ()
   "Blah."
   (get-buffer "*terminal*"))
 
-(defun sideterm--find-window ()
+(defun side-toggle--find-window ()
   "Blah."
   (->> (window-list)
-       (-first (lambda (w) (window-parameter w 'sideterm)))))
+       (-first (lambda (w) (window-parameter w 'side-toggle)))))
 
-(defun sideterm--is-buffer (buffer)
+(defun side-toggle--is-buffer (buffer)
   "Blah BUFFER."
   (s-starts-with? "*termi" (buffer-name buffer)))
 
-(sideterm--find-buffer)
+(side-toggle--find-buffer)
 
-(defun sideterm--find-buffer ()
+(defun side-toggle--find-buffer ()
   "Blah."
   (->> (buffer-list)
        (-first (lambda (b)
-                 (and (sideterm--is-buffer b) (buffer-live-p b))))))
+                 (and (side-toggle--is-buffer b) (buffer-live-p b))))))
 
-(provide 'sideterm)
-;;; sideterm.el ends here
+(provide 'side-toggle)
+;;; side-toggle.el ends here
