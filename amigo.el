@@ -12,13 +12,10 @@
 (require 'seq)
 
 (defvar amigo--specs)
-(defvar amigo--spec)
+(setq amigo--specs '())
 
-;; (setq amigo--specs
-;;       '((term . ((params . ((side . right)))
-;;                  (get-context . (lambda () "blah"))
-;;                  (get-buffer . (lambda () (get-buffer "*terminal*"))))
-;;               )))
+(defvar amigo--spec)
+(setq amigo--spec '())
 
 
 ;;;###autoload
