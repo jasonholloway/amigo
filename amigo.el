@@ -7,23 +7,28 @@
 
 ;;; -*- lexical-binding t; -*-
 
+(require 'subr-x)
+(require 'map)
+(require 'seq)
 
 
 (defvar amigo--specs)
-(setq amigo--specs
-      '((term . ((tag . term)
-                 (params . ((side . right)))
-                 (get-context . (lambda () "blah"))
-                 (get-buffer . (lambda () (get-buffer "*terminal*"))))
-              )))
-
-(amigo--set-spec 'term)
-
-(amigo-toggle 'term)
-
-
 (defvar amigo--spec)
-(setq amigo--spec '())
+
+;; (setq amigo--specs
+;;       '((term . ((params . ((side . right)))
+;;                  (get-context . (lambda () "blah"))
+;;                  (get-buffer . (lambda () (get-buffer "*terminal*"))))
+;;               )))
+
+;; (amigo--set-spec 'term)
+;; (amigo-toggle 'term)
+
+
+;;;###autoload
+(defun amigo-specify (tag spec)
+  "Blah TAG SPEC."
+  (map-put amigo--specs tag spec))
 
 
 ;;;###autoload
@@ -59,7 +64,7 @@
 (defun amigo--is-buffer (buffer)
   "Blah BUFFER."
   (and
-   (s-equals? (buffer-name buffer) (amigo--buffer-name))
+   (string= (buffer-name buffer) (amigo--buffer-name))
    (buffer-live-p buffer)))
 
 (defun amigo--find-buffer ()
