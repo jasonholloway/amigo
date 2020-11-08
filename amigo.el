@@ -11,7 +11,6 @@
 (require 'map)
 (require 'seq)
 
-
 (defvar amigo--specs)
 (defvar amigo--spec)
 
@@ -21,19 +20,16 @@
 ;;                  (get-buffer . (lambda () (get-buffer "*terminal*"))))
 ;;               )))
 
-;; (amigo--set-spec 'term)
-;; (amigo-toggle 'term)
-
 
 ;;;###autoload
 (defun amigo-specify (tag spec)
-  "Blah TAG SPEC."
+  "Add amigo SPEC named by TAG."
   (map-put amigo--specs tag spec))
 
 
 ;;;###autoload
 (defun amigo-toggle (tag)
-  "Blah TAG."
+  "Toggle visibility of amigo window named by TAG."
   (interactive)
   (amigo--set-spec tag)
   (pcase (amigo--current-mode)
