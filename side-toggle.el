@@ -9,58 +9,22 @@
 ;;; -*- lexical-binding t; -*-
 
 
-;; (-first 'side-toggle--is-buffer (buffer-list))
-
-
-;; (side-toggle--find-window)
-
-;; (window-total-width
-;;  (side-toggle--find-window))
-
-
-;; (side-toggle--current-mode)
-
-;; (side-toggle--find-buffer)
-;; (side-toggle--open-buffer)
-
-
-
-;; (window-parameters
-;;  (side-toggle--find-window))
 
 
 (defvar side-toggle--specs)
 (setq side-toggle--specs
-      '((test . ((tag . test)
-                 (params . ((side . right))))
+      '((term . ((tag . term)
+                 (params . ((side . right)))
+                 (get-buffer . (lambda () (get-buffer "*terminal*"))))
               )))
 
-;; (side-toggle--set-spec 'test)
-;; (side-toggle--tag)
+(side-toggle--set-spec 'term)
+
+(side-toggle-toggle 'term)
 
 
 (defvar side-toggle--spec)
 (setq side-toggle--spec '())
-
-
-
-(side-toggle-toggle 'test)
-
-side-toggle--spec
-
-(side-toggle--set-spec 'test)
-(side-toggle--current-mode)
-
-(side-toggle--open-window (side-toggle--find-buffer))
-(side-toggle--close-window (side-toggle--find-window))
-
-
-(seq-map 'window-parameters (window-list))
-(side-toggle--find-window)
-
-(frame-parameter nil 'side-toggle-state)
-(set-frame-parameter nil 'side-toggle-state nil)
-
 
 
 ;;;###autoload
@@ -84,12 +48,17 @@ side-toggle--spec
 
 (defun side-toggle--open-buffer ()
   "Blah."
-  (get-buffer "*terminal*"))
+  (let*
+      ((fn (map-elt side-toggle--spec 'get-buffer))
+       (buffer (funcall fn)))
+    (with-current-buffer buffer
+      (rename-buffer (side-toggle--buffer-name))
+      buffer)))
 
 (defun side-toggle--is-buffer (buffer)
   "Blah BUFFER."
   (and
-   (s-starts-with? "*termi" (buffer-name buffer))
+   (s-equals? (buffer-name buffer) (side-toggle--buffer-name))
    (buffer-live-p buffer)))
 
 (defun side-toggle--find-buffer ()
@@ -101,6 +70,10 @@ side-toggle--spec
 (defun side-toggle--tag ()
   "Blah."
   (map-elt side-toggle--spec 'tag))
+
+(defun side-toggle--buffer-name ()
+  "Blah."
+  (format " *side-%s*" (side-toggle--tag)))
 
 (defun side-toggle--set-spec (tag)
   "Blah TAG."
