@@ -98,7 +98,8 @@
        (state  (frame-parameter nil 'amigo-state))
        (width2 (map-elt state (amigo--tag) 60))
        (delta  (- width2 width1)))
-    (window-resize window delta t)))
+    (window-resize window delta t)
+    (select-window window)))
 
 (defun amigo--close-window (window)
   "Blah WINDOW."
