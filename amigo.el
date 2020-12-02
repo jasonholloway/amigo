@@ -21,6 +21,7 @@
 ;;;###autoload
 (defun amigo-specify (tag spec)
   "Add amigo SPEC named by TAG."
+  (map-put spec 'tag tag)
   (map-put amigo--specs tag spec))
 
 
